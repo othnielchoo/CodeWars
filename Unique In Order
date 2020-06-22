@@ -1,0 +1,79 @@
+
+#include <string>
+#include <vector>
+#include <set>
+
+template <typename T> std::vector<T> uniqueInOrder(const std::vector<T>& iterable){
+  std::vector<T> unique;
+  
+  unsigned int i = 0;
+  while (i < iterable.size()) {
+     unsigned int j = i;
+     while(j < iterable.size() && iterable[j] == iterable[i]) ++j;
+     
+     unique.push_back(iterable[i]);
+     
+     i = j;
+  }
+  
+  return unique;
+}
+
+std::vector<char> uniqueInOrder(const std::string& iterable){
+  std::vector<char> unique;
+  
+  unsigned int i = 0;
+  while (i < iterable.size()) {
+     unsigned int j = i;
+     while(j < iterable.size() && iterable[j] == iterable[i]) ++j;
+     
+     unique.push_back(iterable[i]);
+     
+     i = j;
+  }
+  
+  return unique;
+}
+
+/* voted best solutions */
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <iostream>
+#include <iterator>
+#include <unordered_set>
+
+using namespace std;
+template <typename T> std::vector<T> uniqueInOrder(const std::vector<T>& iterable){
+    vector<T> res;
+
+    unique_copy (iterable.begin(), iterable.end(), std :: back_inserter(res));
+    return res;
+}
+std::vector<char> uniqueInOrder(const std::string& iterable){
+    vector<char> res;
+
+    unique_copy (iterable.begin(), iterable.end(), std :: back_inserter(res));
+    return res;
+}
+
+#include <vector>
+#include <string>
+
+template <typename T> std::vector<T> uniqueInOrder(const std::vector<T> &iterable)
+{
+    std::vector<T> u;
+    const size_t n = iterable.size();
+    for (size_t i = 0, j; i < n; i = j) {
+        j = i;
+        while (iterable[i] == iterable[++j])
+            ;
+        u.push_back(iterable[i]);
+    }
+    return u;
+}
+
+std::vector<char> uniqueInOrder(const std::string &iterable)
+{
+    return uniqueInOrder(std::vector<char>(iterable.begin(), iterable.end()));
+}
