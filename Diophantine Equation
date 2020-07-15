@@ -1,0 +1,38 @@
+//https://www.codewars.com/kata/554f76dca89983cc400000bb/train/cpp
+//passed the small test set, but failed the big one
+
+#include <vector>
+#include <utility>
+#include <cmath>
+#include <iostream>
+#include <string>
+
+class Dioph
+{
+  public:
+  static std::vector<std::pair <long, long>> solEquaStr(long long n) {
+    std::vector<std::pair < long, long>> answer;
+    
+    std::cout << "N: " << std::to_string(n) <<std::endl;
+    long sqrtN = sqrt(n);
+    for(long x = n ; x >= sqrtN; --x) {
+      long two_y = sqrt(((x * x) - n));
+      
+      long y = two_y >> 1;
+      two_y = y * 2;
+      
+      if((x - two_y) == 0)
+        continue;
+        
+      long val = (x - two_y) * (x + two_y);
+      if(val == n) {
+        std::cout << "X: " << x << "|Y: " << y << "|2Y: " 
+          << two_y<< "|(x - 2Y): " << (x - two_y)<< "|(x + 2Y): " << (x + two_y) <<std::endl;
+        answer.push_back(std::make_pair(x , y));
+      }
+
+    }
+    
+    return answer;
+  }
+};
