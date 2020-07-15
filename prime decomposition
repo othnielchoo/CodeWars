@@ -1,0 +1,75 @@
+//https://www.codewars.com/kata/54d512e62a5e54c96200019e/train/cpp
+// passed the small test set, but failed the big random one
+
+#include <sstream> 
+#include <iostream> 
+#include <set>
+#include <vector>
+#include <cmath>
+
+class PrimeDecomp
+{
+private:
+    static void generatePrime(std::vector<bool>& primesVec, std::set<int>& primesSet, size_t num) {
+        if(primesVec.size() >= num)
+            return;
+        
+        primesVec.resize(num + 1, true);
+        
+        size_t i = 2;
+        size_t sqrtN = sqrt(num);
+        
+        /*Sieve of Eratosthenes*/
+        for(i = 2; i < sqrtN; ++i) {
+            if(!primesVec[i]) 
+                continue;
+                
+            for(size_t j = i*i; j < num; j+=i)
+                primesVec[j] = false;
+        }
+        
+        for(size_t a = 2; a < num; ++a)
+            if(primesVec[a])
+                primesSet.insert(a);
+    }
+public:
+    static std::string factors(int lst) {
+//         std::cout << "[" << std::endl;
+//         std::cout << "number : " << lst << std::endl;
+        
+        static std::set<int> primeSet;
+        static std::vector<bool> primeVec;
+        generatePrime(primeVec, primeSet, lst);
+        
+        std::stringstream decomp;
+            
+        //get the next prime in the set. if the next prime does not exist
+        //then call function findNextPrime to find it.
+        std::set<int>::iterator primeSetIt = primeSet.begin();
+        int currPrime = (*primeSetIt);
+        while(lst > 1) {
+//             std::cout << "currPrime:" << currPrime << std::endl;
+            int times = 0;
+            while((lst % currPrime) == 0) {
+                ++times;
+                lst /= currPrime;
+            }
+            
+            //form the string
+            if(times >= 1) {
+                decomp << "(" << currPrime;
+                if(times > 1) 
+                    decomp << "**" << times;
+                
+                decomp << ")";
+            }
+            
+            currPrime = (*(++primeSetIt));
+//             std::cout << "decomp:" << decomp.str() << std::endl;
+        }
+//         std::cout << "decomp:" << decomp.str() << std::endl;
+//         std::cout << "]" << std::endl;
+        return decomp.str();
+    }
+};
+
